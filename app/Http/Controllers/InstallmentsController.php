@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\installments;
 use App\Models\Membership;
-use App\Models\healthpost;
+use App\Models\healthposts;
 use Illuminate\Http\Request;
 
 class InstallmentsController extends Controller
@@ -17,7 +17,7 @@ class InstallmentsController extends Controller
     public function index()
     {
         //
-        $health = healthpost::all();
+        $health = healthposts::all();
         $installments = installments:: all();
         $paid_mems = array();
         foreach ($health as $value) {
@@ -57,7 +57,7 @@ class InstallmentsController extends Controller
         //
         $membership = membership::all();
         $installments = installments::all();
-        $health = healthpost::all();
+        $health = healthposts::all();
         return view('installments.create', compact('installments', 'membership',  'health')) ->with('i', (request()->input('page', 1) -1) * 5);
     }
 
@@ -156,7 +156,7 @@ class InstallmentsController extends Controller
 
         $today_date = date("Y-m-d H:i:s");  //currrent date-time 2022-01-30 22:31 PM
 
-        //$healthpost_id = $healthpost_id; //This Health post id iss empty
+        //$healthpost_id = $healthpost_id; //This Health post id is empty
 
         $total_installments =  membership::where('healthpost_id',$healthpost_id)->value('no_of_installment');
 
@@ -204,24 +204,49 @@ class InstallmentsController extends Controller
 
         $pay_date = date("Y-m-d H:i:s");
 
-        installments::create([
-            'membership_id' => $membership_id,
-            'healthpost_id' => $healthpost_id,
-            'amount' =>  $amount,
-            'pay_date' => $pay_date,
-        ]);
+        // installments::create([
+        //     'membership_id' => $membership_id,
+        //     'healthpost_id' => $healthpost_id,
+        //     'amount' =>  $amount,
+        //     'pay_date' => $pay_date,
+        // ]);
 
         $total_amount =  membership::where('healthpost_id',$healthpost_id)->value('total_price');
         $amountsum =  installments::where('membership_id',$membership_id)->sum('amount');
 
+        $m = $amountsum + $amount;
+
+        $remaining_insts = installments::where('membership_id',$membership_id)->where('amount', 0)->get()->toArray();
         $status = 0;
-        if ($amountsum >= $total_amount) {
-            //Fully paid
-            $status = 2;
-            membership::where('id',$membership_id)->update(['status'=>$status]);
+    if (count($remaining_insts) < 2) {
+        //This is the final installment left
+        //Check if (total membership amount) equals (total paid + $request->amount), If not return an error.
+
+        if($m < $total_amount) {
+            //There is some money left
+            //Return error message
+            $minID = installments::where('membership_id',$membership_id)->where('amount', 0)->min('id');
+            installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date]);
+
+            //Set membership status to 3
+            Membership::where('id',$membership_id)->update(['status'=>3]);
+        }else{
+        //We can proceed
+        //Register payment, then close the membership [Set status to paid]
+        $minID = installments::where('membership_id',$membership_id)->where('amount', 0)->min('id');
+        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date]);
+
+        //Set membership status to 2
+        Membership::where('id',$membership_id)->update(['status'=>2]);
+
         }
-        else {
-            membership::where('id',$membership_id)->update(['status'=>$status]);
+    }else{
+        $status = 1;
+
+        ///Select and Get ID to Update
+        $minID = installments::where('membership_id',$membership_id)->where('amount', 0)->min('id');
+        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date]);
+        Membership::where('id',$membership_id)->update(['status'=>$status]);
         }
         return redirect()->route('installments_index');
 

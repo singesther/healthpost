@@ -32,30 +32,28 @@
 
         <thead>
         <tr>
-        <th>No</th>
-            <th>Number of Installments</th>
+            <th>No</th>
             <th>Healthpost</th>
+            <th>Number of Installments</th>
             <th>Total Price</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Status</th>
             <th>Action</th>
+
         </tr>
         </thead>
         @foreach ($membership as $membership)
         <tbody>
         <tr>
-        <td>{{ ++$i }}</td>
-
+            <td>{{ ++$i }}</td>
+            <td>{{ \App\Models\healthposts::where(['id' => $membership->healthpost_id])->pluck('healthpost_name')->first() }}</td>
             <td>{{ $membership->no_of_installment }}</td>
-
-            <td>{{ \App\Models\healthpost::where(['id' => $membership->healthpost_id])->pluck('name')->first() }}</td>
-
-
             <td> {{ $membership->total_price }} </td>
             <td>{{ $membership->start_date }}</td>
             <td>{{ $membership->end_date}}</td>
             <td> {{ $membership->status}}</td>
+
 
             <td>
 

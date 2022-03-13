@@ -7,6 +7,7 @@ use App\Models\Plans;
 use App\Models\Health;
 use App\Models\Installments;
 use Illuminate\Http\Request;
+use DB;
 
 class MemberController extends Controller
 {
@@ -20,10 +21,10 @@ class MemberController extends Controller
 
         //
 // get all comments of a post
-
+        $data = member::paginate(2);
 
         $member = member:: all();
-        return view('member.index', compact('member')) ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('member.index', compact('member','data')) ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
 
@@ -40,11 +41,12 @@ class MemberController extends Controller
 
         $health = health::all();
 
-        $Plans = Plans::all();
 
 
 
-        return view('member.create', compact('Plans','health'))->with('i', (request()->input('page', 1) - 1) * 5);
+        $latestest= DB::table('members')->latest('id')->first();
+
+        return view('member.create', compact('health', 'latestest'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -58,6 +60,7 @@ class MemberController extends Controller
         //	plans_id		fname	phone	email	password	district	sector
         	// status	membership_plan	health_center	healthpost_name	created_at	updated_at
         $member = Member::get();
+        $latestest= DB::table('members')->latest('id')->first();
         $request->validate([
 
             'fullname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
@@ -68,17 +71,11 @@ class MemberController extends Controller
 
            ]);
 
-
-
-
-
-
-
         // $membership  = Plans::select('name','detail')->where('id', $request->membership_plan)->get();
 
         // Member::create($request->all());
 
-        Member::create([
+        $member = Member::create([
 
             'healthpost_id' => $request->healthpost_name,
             'fullname' => $request->fullname,
@@ -89,7 +86,10 @@ class MemberController extends Controller
         ]);
 
 
-        return redirect()->route('health.create')->with('success','owner created successfully.');
+        return redirect()->route('health.create', compact('member', 'latestest'))->with('i', (request()->input('page', 1) -1) * 5);
+
+
+
 
     }
 

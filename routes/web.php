@@ -31,8 +31,7 @@ Route::resource('member', MemberController::class);
 Route::resource('membership', MembershipController::class);
 Route::resource('installments', InstallmentsController::class);
 Route::resource('health', HealthController::class);
-Route::resource('dashboard', DashboardController::class);
-Route::post('dashboard', 'DashboardController@login');
+
 
 Route::resource('healthpost', healthpostController::class);
 
@@ -46,7 +45,6 @@ Route::post('api/fetch-members', [PaymentsController::class, 'fetchMember']);
 
 Route::post('api/fetch-healths', [PaymentsController::class, 'fetchHealth']);
 
-
 Route::post('/healthpost_red/{healthpost_id}', [InstallmentsController::class, 'healthpost'])->name('red_health');
 
 Route::post('/insert_installment/{membership_id}', [InstallmentsController::class, 'insert_new'])->name('insert_new_inst');
@@ -55,8 +53,14 @@ Route::get('/installments_index', [InstallmentsController::class, 'index'])->nam
 
 Route::post('/health_create/{id}', [HealthController::class, 'health_create'])->name('health_create');
 
-// Route::match(['GET', 'POST'],'/changeStatus', 'InstallmentsController@changestatus');
+Route::post('/existing_hc/{owner_id}', [HealthController::class, 'existing_hc'])->name('existing_hc');
 
+Route::post('/mem_create', [MembershipController::class, 'mem_create'])->name('mem_create');
+
+Route::post('/dates_create/{nof_insts}', function(){
+    $no = $nof_insts;
+    return view('membership.inst', ['nof_insts' => $no]);
+});
 
 Auth::routes();
 

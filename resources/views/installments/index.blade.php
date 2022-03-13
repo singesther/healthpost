@@ -41,9 +41,9 @@
 
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $health->name}}</td>
+                                    <td>{{ $health->healthpost_name}}</td>
                                     <td>{{ \App\Models\member::where(['id' => $health->owner_id])->pluck('fullname')->first() }}</td>
-                                    <td>{{ \App\Models\health::where(['id' => $health->healthpost_id])->pluck('health_center_name')->first() }}</td>
+                                    <td>{{ \App\Models\health::where(['id' => $health->healthcenter_id])->pluck('health_center_name')->first() }}</td>
                                     <td>{{ $health->address }}</td>
                                     <td>{{ $health->phone }}</td>
                                     <td>

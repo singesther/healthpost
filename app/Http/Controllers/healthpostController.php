@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\healthpost;
+use App\Models\healthposts;
 use App\Models\Member;
 use App\Models\Health;
 use DB;
@@ -18,8 +18,8 @@ class healthpostController extends Controller
     public function index()
     {
         //
-        $health = healthpost:: latest()->paginate(5);
-        return view('healthpost.index', compact('health')) ->with('i', (request()->input('page', 1) - 1) * 5);
+        $healthpost = healthposts:: latest()->paginate(5);
+        return view('healthpost.index', compact('healthpost')) ->with('i', (request()->input('page', 1) - 1) * 5);
 
     }
 
@@ -51,10 +51,10 @@ class healthpostController extends Controller
      */
     public function store(Request $request)
     {
-        $health = healthpost::get();
+
 
         $request->validate([
-            'name' =>'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+            'healthpost_name' =>'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
             'address' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'phone' => 'required||unique:healthposts|regex:/^[-0-9\+]+$/|min:10',
@@ -64,10 +64,10 @@ class healthpostController extends Controller
         ]);
 
 
-        healthpost::create([
+        healthposts::create([
             'owner_id' => $request->owner_id,
-            'healthpost_id' => $request->healthpost_id,
-            'name' => $request->name,
+            'healthcenter_id' => $request->healthcenter_id,
+            'healthpost_name' => $request->healthpost_name,
             'phone' => $request->phone,
             'address' => $request->address,
             'tin_number' => $request->tin_number,

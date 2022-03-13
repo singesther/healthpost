@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class healthpost extends Model
+class healthposts extends Model
 {
     protected $fillable = [
-       'owner_id','healthpost_id', 'name', 'address', 'phone', 'tin_number'
+       'owner_id','healthcenter_id', 'healthpost_name', 'address', 'phone', 'tin_number'
 
 
 

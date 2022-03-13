@@ -10,7 +10,7 @@ class installments extends Model
 
     use HasFactory;
     protected $fillable = [
-        'healthpost_id', 'membership_id','pay_date', 'amount', 'status'
+        'healthpost_id', 'membership_id','pay_date', 'amount', 'due_date', 'status'
     ];
         public function membership()
         {

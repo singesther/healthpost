@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Membership;
-use App\Models\healthpost;
+use App\Models\installments;
+use App\Models\healthposts;
 use App\Models\Health;
 use Illuminate\Http\Request;
 
@@ -17,11 +18,12 @@ class MembershipController extends Controller
     public function index()
     {
         //
+
         $membership = membership:: all();
-        $health = healthpost::get();
+        $healthpost = healthposts::get();
 
 
-        return view('membership.index', compact('membership', 'health')) ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('membership.index', compact('membership', 'healthpost',)) ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
 
@@ -34,8 +36,8 @@ class MembershipController extends Controller
     {
         //
         $membership = membership:: all();
-        $health = healthpost:: all();
-        return view('membership.create', compact('membership', 'health'))->with('i', (request()->input('page', 1) -1) * 5);
+        $healthpost = healthposts:: all();
+        return view('membership.create', compact('membership', 'healthpost'))->with('i', (request()->input('page', 1) -1) * 5);
     }
 
 
@@ -49,34 +51,58 @@ class MembershipController extends Controller
     {
     $membership = membership::get();
 
+
     $request->validate([
         'no_of_installment' =>'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:4',
 
-        'start_date' => 'required',
-        'end_date' => 'required',
         'total_price' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:6',
-
-
-
-
     ]);
 
 
-    membership::create([
-
+    $mem = membership::create([
         'healthpost_id' => $request->healthpost_id,
         'no_of_installment' => $request->no_of_installment,
-        'start_date' => $request->start_date,
-        'end_date' => $request->end_date,
         'total_price' => $request->total_price,
-
-
-
     ]);
+    $lastID = $mem->id;
+
+    //Here, we have to initialize same number of rown in installments table
 
 
-    return redirect()->route('installments.index')->with('success','membership created successfully.');
+    //The first step ni ugukora loop, to ensure that the same number of rows will be created.
+    $i = 0;
+    $today_date = date("Y-m-d");
+    $first_inst = date('Y-m-d', strtotime("+30 days")); //Ubwo nizindi Insts zose nuku
+    // $next_inst = date("Y-m-d", strtotime("+30 days", strtotime($prev_inst)));
 
+    $due_date = $first_inst;
+    while ($i < $request->no_of_installment) {
+        //Now we can create the row
+
+        if ($i == 0) {
+            //First inst
+            $due_date = $first_inst;
+            Membership::where('id',$lastID)->update(['start_date'=>$due_date]);
+        } else {
+            $due_date = date("Y-m-d", strtotime("+30 days", strtotime($due_date)));
+        }
+        //dd($first_inst);
+
+        $inst = installments::create([
+            'membership_id' => $lastID,
+            'healthpost_id' => $request->healthpost_id,
+            'amount' => 0,
+            'due_date' => $due_date,
+            'pay_date' => NULL
+        ]);
+
+
+        $i++;
+
+    }
+    $nof_insts = $request->no_of_installment;
+
+    return redirect('/dates_create/'.$nof_insts.'/');
 }
     /**
      * Display the specified resource.
@@ -87,7 +113,7 @@ class MembershipController extends Controller
     public function show(Membership $membership)
     {
         //
-        return view('membership.show', compacct('membership'));
+        return view('membership.show', compact('membership'));
     }
 
     /**
@@ -135,5 +161,12 @@ class MembershipController extends Controller
         //
         $membership->delete();
         return redirect()->route('membership.index')->with('success', 'membership deleted successfully');
+    }
+
+    public function dates_create($nof_insts){
+        //Do whatever
+        dd($nof_insts);
+
+      //  return view('membership.inst');
     }
 }

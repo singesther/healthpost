@@ -46,22 +46,22 @@
 
         </tr>
             </thead>
-            @foreach ($health as $health)
+            @foreach ($healthpost as $healthpost)
             <tbody>
 
             <tr>
             <td>{{ ++$i }}</td>
-                <td>{{ $health->name}}</td>
-                <td>{{ \App\Models\member::where(['id' => $health->owner_id])->pluck('fullname')->first() }}</td>
-                <td>{{ \App\Models\health::where(['id' => $health->healthpost_id])->pluck('health_center_name')->first() }}</td>
+                <td>{{ $healthpost->healthpost_name}}</td>
+                <td>{{ \App\Models\member::where(['id' => $healthpost->owner_id])->pluck('fullname')->first() }}</td>
+                <td>{{ \App\Models\health::where(['id' => $healthpost->healthcenter_id])->pluck('health_center_name')->first() }}</td>
 
-                <td>{{ $health->address }}</td>
-                <td>{{ $health->phone }}</td>
-                <td>{{ $health->tin_number }}</td>
+                <td>{{ $healthpost->address }}</td>
+                <td>{{ $healthpost->phone }}</td>
+                <td>{{ $healthpost->tin_number }}</td>
                 <td>
 
-                <form action="{{ route('healthpost.destroy', $health->id) }}" method="POST">
-                       <a class="btn btn-primary" href="{{ route('healthpost.edit',$health->id) }}">Edit</a>
+                <form action="{{ route('healthpost.destroy', $healthpost->id) }}" method="POST">
+                       <a class="btn btn-primary" href="{{ route('healthpost.edit',$healthpost->id) }}">Edit</a>
 
                             @csrf
                             @method('DELETE')

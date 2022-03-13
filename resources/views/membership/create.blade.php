@@ -31,6 +31,19 @@
 
      <div class="row">
         <div class="col-xs-9 col-sm-8 col-md-8">
+
+        <strong>Healthpost_name:</strong>
+
+<select classs="form-group" name="healthpost_id">
+
+@foreach ($healthpost as $healthpost)
+   <option value="{{$healthpost->id}}">{{$healthpost->healthpost_name}}
+
+   </option>
+   @endforeach
+
+
+</select>
             <div class="form-group">
                 <label>Number of installments</label>
 
@@ -50,40 +63,15 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+             </div>
+            <!--<div class="form-group">
+                <label>Start Date:</label>
+                <input type="date" name="start_date" class="form-control">
             </div>
             <div class="form-group">
-                <label>Start Date</label>
-                <input type="date" name="start_date" class="form-control @error('start_date') is-invalid @enderror">
-                @error('start_date')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>End Date</label>
-                <input type="date" name="end_date" class="form-control @error('end_date') is-invalid @enderror">
-                @error('end_date')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-            <strong >Healthpost_name</strong>
-
-                <select classs="form-control" name="healthpost_id">
-
-                   @foreach ($health as $health)
-                   <option value="{{$health->id}}">{{$health->name}}
-
-                     </option>
-                   @endforeach
-
-
-            </select>
-
-
+                <label>End Date:</label>
+                <input type="date" name="end_date" class="form-control">
+            </div> -->
 
      <div class="pull-right">
 

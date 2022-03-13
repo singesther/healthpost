@@ -17,28 +17,33 @@
     </div>
 </div>
 
-<form action="{{ route('health_create')}}" method="POST">
-<strong >choose from existing</strong>
 
-<select classs="form-control" name="id">
+<div class="col-xs-9 col-sm-8 col-md-8">
+<form action=" {!! url('/existing_hc',$latestest->id) !!}" id="myform" method="POST">
+@csrf
+    <strong >Choose from existing</strong>
+    <select class="form-control" name="hc_id">
+        @foreach ($health as $health)
+        <option value="{{$health->id}}">{{$health->health_center_name}} </option>
+        @endforeach
+    </select> <br>
+    <input type="hidden" name="owner_id" class="form-control" value="{{$latestest->id}}">
+    <div class="pull-right">
 
-   @foreach ($health as $health)
-   <option value="{{$health->id}}">{{$health->health_center_name}}
-
-     </option>
-   @endforeach
-
-
-</select>
-<button type="submit" class="btn btn-primary">Next</button>
+                <button type="submit" class="btn btn-primary">Next</button>
+        </div>
 </form>
+</div>
+
+
+<br><br><br>
+
 
 <form action="{{ route('health.store') }}" method="POST">
     @csrf
-
+    <input type="hidden" name="owner_id" class="form-control" value="{{$latestest->id}}">
      <div class="row">
         <div class="col-xs-9 col-sm-8 col-md-8">
-
             <div class="form-group">
                 <label>Heath Center:</label>
                 <input type="text" name="health_center_name" class="form-control @error('health_center_name') is-invalid @enderror">
@@ -61,19 +66,14 @@
                     </span>
                 @enderror
             </div>
-
-
-
+            <input type="hidden" value="$lastInsertID">
         <div class="pull-right">
 
-        <div class="col-xs-6 col-sm-6 col-md-6" >
                 <button type="submit" class="btn btn-primary">Next</button>
         </div>
             </div>
             @include('includes.footer')
                 </div>
     </div>
-
-
 </form>
 @endsection

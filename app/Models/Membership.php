@@ -19,6 +19,6 @@ class Membership extends Model
 
 public function post()
 {
-    return $this->belongsTo(healthpost::class);
+    return $this->belongsTo(healthposts::class);
 }
 }

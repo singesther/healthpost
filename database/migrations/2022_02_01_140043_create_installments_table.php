@@ -18,8 +18,8 @@ class CreateInstallmentsTable extends Migration
             $table->BigInteger('membership_id')->unsigned();
             $table->BigInteger('healthpost_id')->unsigned();
             $table->string('amount');
-            $table->string('pay_date');
-            $table->string('status')->default(0);
+            $table->string('pay_date')->nullable();
+
             $table->timestamps();
             $table->foreign('membership_id')->references('id')->on('memberships')
             ->onDelete('cascade');

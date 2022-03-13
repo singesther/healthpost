@@ -70,6 +70,7 @@
     </div>
   </div> <br><br><br>
 
+
       <form action=" {!! url('/insert_installment',$article['membership_id']) !!}" id="myform" method="POST" onsubmit="validateMyForm();">
        @csrf
 
@@ -109,7 +110,7 @@
             </div>
 
 
-
+            <div id="message_div"></div>
 
 
 
@@ -121,7 +122,7 @@
                     <button type="submit" id="submit_form" class="btn btn-primary">Submit</button>
             </div>
 
-           <script>
+            <script>
 
                 function validateMyForm(){
                     var amount = document.getElementById('amount_field').value;
@@ -132,7 +133,7 @@
                     console.log(amount + total_amount + paid_amount + remaining_amount);
 
                     if (amount > remaining_amount) {
-                        document.getElementById('message_div').innerHTML = "Amount is greater than required!";
+                        document.getElementById('message_div').innerHTML = "Amount is greater than the Remaining!";
                         //console.log("Amount invalid!" + amount);
                         event.preventDefault();
                         return false;
@@ -145,7 +146,8 @@
                 };
 
 
-            </script>
+                </script>
+
 
 
 

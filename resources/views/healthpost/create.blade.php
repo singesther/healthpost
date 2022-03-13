@@ -13,17 +13,18 @@
 
     </div>
 </div>
-
-
-
 <form action="{{ route('healthpost.store') }}" method="POST">
     @csrf
+
+
+    <input type="text" name="owner_id" value="{{ $data['ownerLastInsertID'] }}">
+    <input type="text" name="healthcenter_id" value=" {{  $data['hcLastInsertID'] }} ">
 
      <div class="row">
         <div class="col-xs-9 col-sm-8 col-md-8">
             <div class="form-group">
                 <label>Heathpost</label>
-                <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror">
+                <input type="text" name="healthpost_name" class="form-control  @error('healthpost_name') is-invalid @enderror">
                 @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -57,25 +58,9 @@
                     </span>
                 @enderror
             </div>
-
-            <div class="form-group">
-
-                <input type="hidden" name="healthpost_id" class="form-control" value="{{$latest->id}}">
-            </div>
-            <div class="form-group">
-
-                <input type="hidden" name="owner_id" class="form-control" value="{{$latestest->id}}">
-            </div>
-
-
-
-
-
-
-
         <div class="pull-right">
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Next</button>
             </div>
 </div>
     </div>

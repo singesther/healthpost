@@ -40,6 +40,7 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                    @if(!empty($data) && $data->count())
                                    @foreach ($member as $member)
                                     <tbody>
                                        <tr>
@@ -61,8 +62,14 @@
                                               </form>
 
                                             </td>
+                     
         <tbody>
         @endforeach
+        @else
+                <tr>
+                    <td colspan="10">There are no data.</td>
+                </tr>
+            @endif
      </table>
 
    </div>

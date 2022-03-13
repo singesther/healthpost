@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Health;
 use Illuminate\Http\Request;
+use DB;
 
 class HealthController extends Controller
 {
@@ -28,7 +29,8 @@ class HealthController extends Controller
     {
         //
         $health = health:: latest()->paginate(5);
-        return view('health.create', compact('health'));
+        $latestest= DB::table('members')->latest('id')->first();
+        return view('health.create', compact('health', 'latestest'));
     }
 
     /**
@@ -47,8 +49,20 @@ class HealthController extends Controller
             'phone' => 'required|unique:healths|regex:/^[-0-9\+]+$/|min:10',
 
         ]);
-        Health::create($request->all());
-        return redirect()->route('healthpost.create')->with('success','Healthcenter created successfully.');
+        $health = Health::create($request->all());
+
+        $hcLastInsertID = $health->id;
+        $ownerLastInsertID = $request->owner_id;
+
+        $data = [
+            'hcLastInsertID' => $hcLastInsertID,
+            'ownerLastInsertID' => $ownerLastInsertID
+        ];
+
+       return view('healthpost.create', ['data' => $data]);
+
+
+       // return redirect()->route('healthpost.create', compact('hcLastInsertID', 'ownerLastInsertID'))->with('i', (request()->input('page', 1) -1) * 5);
 
     }
 
@@ -118,7 +132,19 @@ class HealthController extends Controller
 
 
 
-            return redirect()->route('health.create', compact('id', 'healthcenter'));
+            return redirect()->route('healthpost.create', compact('id', 'healthcenter'));
 
         }
+
+    public function existing_hc(Request $request, $owner_id){
+        $hcLastInsertID = $request->hc_id;
+        $ownerLastInsertID = $request->owner_id;
+
+        $data = [
+            'hcLastInsertID' => $hcLastInsertID,
+            'ownerLastInsertID' => $ownerLastInsertID
+        ];
+
+       return view('healthpost.create', ['data' => $data]);
+    }
 }
