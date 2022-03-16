@@ -69,8 +69,6 @@
 
     </div>
   </div> <br><br><br>
-
-
       <form action=" {!! url('/insert_installment',$article['membership_id']) !!}" id="myform" method="POST" onsubmit="validateMyForm();">
        @csrf
 

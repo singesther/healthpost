@@ -46,9 +46,7 @@
                 <input type="date" name="field{{ $i }}" class="form-control">
             </div>
         </div>
-            
         @endfor
-        
      <div class="pull-right">
 
         <div class="col-xs-6 col-sm-6 col-md-6" >

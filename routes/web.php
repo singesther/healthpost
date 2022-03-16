@@ -47,6 +47,8 @@ Route::post('api/fetch-healths', [PaymentsController::class, 'fetchHealth']);
 
 Route::post('/healthpost_red/{healthpost_id}', [InstallmentsController::class, 'healthpost'])->name('red_health');
 
+Route::get('/healthpost_red/{healthpost_id}', [InstallmentsController::class, 'healthpost_get'])->name('get_health');
+
 Route::post('/insert_installment/{membership_id}', [InstallmentsController::class, 'insert_new'])->name('insert_new_inst');
 
 Route::post('/update_installment/{membership_id}', [InstallmentsController::class, 'update_new'])->name('update_new_inst');
@@ -66,5 +68,3 @@ Route::get('/dates_create', function(){
 });
 
 Auth::routes();
-
-
