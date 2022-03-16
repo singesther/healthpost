@@ -3,6 +3,7 @@
 <head>
     <title>Laravel Custom Login/Signup Example</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon"/>
 </head>
 
 <body>

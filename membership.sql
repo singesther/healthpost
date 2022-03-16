@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2022 at 08:41 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.6
+-- Generation Time: Mar 16, 2022 at 12:36 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 7.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `membership`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -101,6 +122,7 @@ CREATE TABLE `installments` (
   `membership_id` bigint(20) UNSIGNED NOT NULL,
   `healthpost_id` bigint(20) UNSIGNED NOT NULL,
   `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paid` int(55) NOT NULL DEFAULT 0,
   `due_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `pay_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -111,109 +133,9 @@ CREATE TABLE `installments` (
 -- Dumping data for table `installments`
 --
 
-INSERT INTO `installments` (`id`, `membership_id`, `healthpost_id`, `amount`, `due_date`, `pay_date`, `created_at`, `updated_at`) VALUES
-(31, 27, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:04:10', '2022-03-11 20:04:10'),
-(32, 27, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:04:10', '2022-03-11 20:04:10'),
-(33, 28, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:04:48', '2022-03-11 20:04:48'),
-(34, 28, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:04:48', '2022-03-11 20:04:48'),
-(35, 29, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:05:07', '2022-03-11 20:05:07'),
-(36, 29, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:05:07', '2022-03-11 20:05:07'),
-(37, 30, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:05:53', '2022-03-11 20:05:53'),
-(38, 30, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:05:53', '2022-03-11 20:05:53'),
-(39, 31, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:07:35', '2022-03-11 20:07:35'),
-(40, 31, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:07:35', '2022-03-11 20:07:35'),
-(41, 32, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(42, 32, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(43, 32, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(44, 32, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(45, 32, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(46, 32, 5, '0', '2022-09-07 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(47, 32, 5, '0', '2022-10-07 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(48, 32, 5, '0', '2022-11-06 07:00:00', NULL, '2022-03-11 20:17:57', '2022-03-11 20:17:57'),
-(49, 33, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(50, 33, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(51, 33, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(52, 33, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(53, 33, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(54, 33, 5, '0', '2022-09-07 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(55, 33, 5, '0', '2022-10-07 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(56, 33, 5, '0', '2022-11-06 07:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(57, 33, 5, '0', '2022-12-06 08:00:00', NULL, '2022-03-11 20:19:00', '2022-03-11 20:19:00'),
-(58, 34, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(59, 34, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(60, 34, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(61, 34, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(62, 34, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(63, 34, 5, '0', '2022-09-07 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(64, 34, 5, '0', '2022-10-07 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(65, 34, 5, '0', '2022-11-06 07:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(66, 34, 5, '0', '2022-12-06 08:00:00', NULL, '2022-03-11 20:29:59', '2022-03-11 20:29:59'),
-(67, 35, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(68, 35, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(69, 35, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(70, 35, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(71, 35, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(72, 35, 5, '0', '2022-09-07 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(73, 35, 5, '0', '2022-10-07 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(74, 35, 5, '0', '2022-11-06 07:00:00', NULL, '2022-03-11 20:32:03', '2022-03-11 20:32:03'),
-(75, 36, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:42:57', '2022-03-11 20:42:57'),
-(76, 36, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:42:57', '2022-03-11 20:42:57'),
-(77, 36, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:42:57', '2022-03-11 20:42:57'),
-(78, 36, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:42:57', '2022-03-11 20:42:57'),
-(79, 36, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:42:57', '2022-03-11 20:42:57'),
-(80, 37, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:47:07', '2022-03-11 20:47:07'),
-(81, 37, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:47:07', '2022-03-11 20:47:07'),
-(82, 37, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:47:07', '2022-03-11 20:47:07'),
-(83, 37, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:47:07', '2022-03-11 20:47:07'),
-(84, 37, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:47:07', '2022-03-11 20:47:07'),
-(85, 38, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:47:55', '2022-03-11 20:47:55'),
-(86, 38, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:47:55', '2022-03-11 20:47:55'),
-(87, 38, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:47:55', '2022-03-11 20:47:55'),
-(88, 38, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:47:55', '2022-03-11 20:47:55'),
-(89, 38, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:47:55', '2022-03-11 20:47:55'),
-(90, 39, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:48:32', '2022-03-11 20:48:32'),
-(91, 39, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:48:32', '2022-03-11 20:48:32'),
-(92, 39, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:48:32', '2022-03-11 20:48:32'),
-(93, 39, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:48:32', '2022-03-11 20:48:32'),
-(94, 39, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:48:32', '2022-03-11 20:48:32'),
-(95, 40, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:51:39', '2022-03-11 20:51:39'),
-(96, 40, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:51:39', '2022-03-11 20:51:39'),
-(97, 40, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:51:39', '2022-03-11 20:51:39'),
-(98, 40, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:51:39', '2022-03-11 20:51:39'),
-(99, 40, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:51:39', '2022-03-11 20:51:39'),
-(105, 42, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:56:58', '2022-03-11 20:56:58'),
-(106, 42, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:56:58', '2022-03-11 20:56:58'),
-(107, 42, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:56:58', '2022-03-11 20:56:58'),
-(108, 42, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:56:58', '2022-03-11 20:56:58'),
-(109, 43, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(110, 43, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(111, 43, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(112, 43, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(113, 43, 5, '0', '2022-08-08 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(114, 43, 5, '0', '2022-09-07 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(115, 43, 5, '0', '2022-10-07 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(116, 43, 5, '0', '2022-11-06 07:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(117, 43, 5, '0', '2022-12-06 08:00:00', NULL, '2022-03-11 20:59:07', '2022-03-11 20:59:07'),
-(121, 45, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 21:13:06', '2022-03-11 21:13:06'),
-(122, 45, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 21:13:06', '2022-03-11 21:13:06'),
-(123, 45, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 21:13:06', '2022-03-11 21:13:06'),
-(124, 45, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 21:13:06', '2022-03-11 21:13:06'),
-(125, 46, 5, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 21:18:41', '2022-03-11 21:18:41'),
-(126, 46, 5, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 21:18:41', '2022-03-11 21:18:41'),
-(127, 46, 5, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 21:18:41', '2022-03-11 21:18:41'),
-(128, 46, 5, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 21:18:41', '2022-03-11 21:18:41'),
-(129, 47, 7, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 21:33:33', '2022-03-11 21:33:33'),
-(130, 47, 7, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 21:33:33', '2022-03-11 21:33:33'),
-(131, 48, 8, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 21:55:40', '2022-03-11 21:55:40'),
-(132, 48, 8, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 21:55:40', '2022-03-11 21:55:40'),
-(133, 48, 8, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 21:55:40', '2022-03-11 21:55:40'),
-(134, 48, 8, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 21:55:40', '2022-03-11 21:55:40'),
-(135, 49, 8, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 22:22:22', '2022-03-11 22:22:22'),
-(136, 49, 8, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 22:22:22', '2022-03-11 22:22:22'),
-(137, 49, 8, '0', '2022-06-09 07:00:00', NULL, '2022-03-11 22:22:22', '2022-03-11 22:22:22'),
-(138, 49, 8, '0', '2022-07-09 07:00:00', NULL, '2022-03-11 22:22:22', '2022-03-11 22:22:22'),
-(139, 50, 9, '0', '2022-04-10 07:00:00', NULL, '2022-03-11 22:24:10', '2022-03-11 22:24:10'),
-(140, 50, 9, '0', '2022-05-10 07:00:00', NULL, '2022-03-11 22:24:10', '2022-03-11 22:24:10');
+INSERT INTO `installments` (`id`, `membership_id`, `healthpost_id`, `amount`, `paid`, `due_date`, `pay_date`, `created_at`, `updated_at`) VALUES
+(4, 2, 5, '10000', 0, '2022-03-16 09:54:11', '2022-04-01', '2022-03-16 09:53:59', '2022-03-16 07:54:11'),
+(5, 2, 5, '10000', 0, '2022-03-16 11:27:51', '2022-04-02', '2022-03-16 09:53:59', '2022-03-16 07:54:11');
 
 -- --------------------------------------------------------
 
@@ -266,14 +188,7 @@ CREATE TABLE `memberships` (
 --
 
 INSERT INTO `memberships` (`id`, `healthpost_id`, `no_of_installment`, `total_price`, `extended`, `start_date`, `end_date`, `status`, `created_at`, `updated_at`) VALUES
-(42, 5, '4', '200000', NULL, '2022-04-10', NULL, '0', '2022-03-11 20:56:58', '2022-03-11 21:01:59'),
-(43, 5, '9', '200000', NULL, '2022-04-10', NULL, '0', '2022-03-11 20:59:06', '2022-03-11 20:59:06'),
-(45, 5, '4', '200000', NULL, '2022-04-10', NULL, '0', '2022-03-11 21:13:06', '2022-03-11 21:13:06'),
-(46, 5, '4', '200000', NULL, '2022-04-10', NULL, '0', '2022-03-11 21:18:41', '2022-03-11 21:18:41'),
-(47, 7, '2', '10000', NULL, '2022-04-10', NULL, '0', '2022-03-11 21:33:32', '2022-03-11 21:33:32'),
-(48, 8, '4', '4000', NULL, '2022-04-10', NULL, '0', '2022-03-11 21:55:40', '2022-03-11 21:55:40'),
-(49, 8, '4', '4000', NULL, '2022-04-10', NULL, '0', '2022-03-11 22:22:22', '2022-03-11 22:22:22'),
-(50, 9, '2', '200', NULL, '2022-04-10', NULL, '0', '2022-03-11 22:24:09', '2022-03-11 22:24:10');
+(2, 5, '2', '20000', NULL, '2022-03-16', '2022-05-15', '0', '2022-03-16 07:53:59', '2022-03-16 09:33:14');
 
 -- --------------------------------------------------------
 
@@ -301,7 +216,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2021_10_09_085343_create_members_table', 1),
 (8, '2022_01_25_111110_create_healthposts_table', 1),
 (9, '2022_01_27_134806_create_memberships_table', 1),
-(10, '2022_02_01_140043_create_installments_table', 1);
+(10, '2022_02_01_140043_create_installments_table', 1),
+(11, '2018_03_11_062135_create_posts_table', 2),
+(12, '2018_03_12_062135_create_categories_table', 2);
 
 -- --------------------------------------------------------
 
@@ -374,6 +291,44 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `intro` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_id` int(10) UNSIGNED DEFAULT NULL,
+  `category_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_featured` int(11) DEFAULT NULL,
+  `featured_image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_keywords` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_og_image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_og_url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hits` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `order` int(11) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1,
+  `moderated_by` int(10) UNSIGNED DEFAULT NULL,
+  `moderated_at` datetime DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `created_by_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_by_alias` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED DEFAULT NULL,
+  `published_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -423,6 +378,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -508,6 +469,12 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -533,6 +500,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -554,7 +527,7 @@ ALTER TABLE `healths`
 -- AUTO_INCREMENT for table `installments`
 --
 ALTER TABLE `installments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `members`
@@ -566,13 +539,13 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `memberships`
 --
 ALTER TABLE `memberships`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -584,6 +557,12 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -610,36 +589,10 @@ ALTER TABLE `healthposts`
   ADD CONSTRAINT `healthposts_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `members` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `installments`
---
-ALTER TABLE `installments`
-  ADD CONSTRAINT `installments_healthpost_id_foreign` FOREIGN KEY (`healthpost_id`) REFERENCES `healthposts` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `installments_membership_id_foreign` FOREIGN KEY (`membership_id`) REFERENCES `memberships` (`id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `memberships`
 --
 ALTER TABLE `memberships`
   ADD CONSTRAINT `memberships_healthpost_id_foreign` FOREIGN KEY (`healthpost_id`) REFERENCES `healthposts` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `model_has_permissions`
---
-ALTER TABLE `model_has_permissions`
-  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `model_has_roles`
---
-ALTER TABLE `model_has_roles`
-  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `role_has_permissions`
---
-ALTER TABLE `role_has_permissions`
-  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

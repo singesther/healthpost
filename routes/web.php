@@ -49,6 +49,8 @@ Route::post('/healthpost_red/{healthpost_id}', [InstallmentsController::class, '
 
 Route::post('/insert_installment/{membership_id}', [InstallmentsController::class, 'insert_new'])->name('insert_new_inst');
 
+Route::post('/update_installment/{membership_id}', [InstallmentsController::class, 'update_new'])->name('update_new_inst');
+
 Route::get('/installments_index', [InstallmentsController::class, 'index'])->name('installments_index');
 
 Route::post('/health_create/{id}', [HealthController::class, 'health_create'])->name('health_create');
@@ -57,9 +59,10 @@ Route::post('/existing_hc/{owner_id}', [HealthController::class, 'existing_hc'])
 
 Route::post('/mem_create', [MembershipController::class, 'mem_create'])->name('mem_create');
 
-Route::post('/dates_create/{nof_insts}', function(){
-    $no = $nof_insts;
-    return view('membership.inst', ['nof_insts' => $no]);
+Route::get('/dates_create', function(){
+    $user=session('nof');
+    // dd($user);
+    return view('membership.inst')->with('nof',$user);
 });
 
 Auth::routes();

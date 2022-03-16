@@ -65,7 +65,7 @@
     <div class="card">
         <h6>Status</h6>
       <p>Paid Amount: {{ $article["paid_amount"] }} Rwf (Remaining: {{ $article["total_amount"]-$article["paid_amount"] }} Rwf)</p>
-      <p> Installments: {{ $article["paid_installments"] }} (Remaining: {{ $article["total_installments"]-$article["paid_installments"] }})</p>
+      <p> Installments: {{ $article["total_installments"] }} (Remaining: {{ $article["total_installments"]-$article["paid_installments"] }})</p>
 
     </div>
   </div> <br><br><br>
@@ -76,26 +76,31 @@
 
        <div>
 
-
             <table id="bootstrap-data-table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Membership id</th>
-                        <th>Healthpost id</th>
+                        
+                        <th>Healthpost Name</th>
                         <th>Amount</th>
+                        <th>Paid</th>
                         <th>Pay date</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                    $i = 1;
+                    ?>
                     @foreach($article["all_payments"] as $insts)
                     <tr>
-                        <td> {{ $insts->id }}</td>
-                        <td> {{ $insts->membership_id }} </td>
-                        <td> {{ $insts->healthpost_id }} </td>
+                        <td> {{ $i }}</td>
+                        
+                        <td> {{ $article["healthpost_name"] }} </td>
                         <td> {{ $insts->amount }} </td>
+                        <th> <?php if ($insts->paid == 0) { echo "No"; }else{echo "Yes";}?> </th>
                         <td> {{ $insts->pay_date }} </td>
                     </tr>
+                    <?php $i++; ?>
                     @endforeach
                 </tbody>
             </table>

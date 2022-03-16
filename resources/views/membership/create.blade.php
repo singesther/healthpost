@@ -32,9 +32,11 @@
      <div class="row">
         <div class="col-xs-9 col-sm-8 col-md-8">
 
+
         <strong>Healthpost_name:</strong>
 
 <select classs="form-group" name="healthpost_id">
+
 
 @foreach ($healthpost as $healthpost)
    <option value="{{$healthpost->id}}">{{$healthpost->healthpost_name}}

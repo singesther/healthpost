@@ -51,7 +51,7 @@
                                             <form action=" {!! url('/healthpost_red',$health->id) !!}" method="POST">
                                                 @csrf
                                             <input type="hidden" name="healthpost_id" value="$health->id">
-                                            <button type="submit" disabled class="btn btn-primary">Add Payment</button>
+                                            <button type="submit" class="btn btn-primary">Add Payment</button>
                                             </form>
                                         @else
                                              <form action=" {!! url('/healthpost_red',$health->id) !!}" method="POST">

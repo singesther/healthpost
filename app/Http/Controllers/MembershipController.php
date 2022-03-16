@@ -71,18 +71,18 @@ class MembershipController extends Controller
 
     //The first step ni ugukora loop, to ensure that the same number of rows will be created.
     $i = 0;
+    date_default_timezone_set("Africa/Kigali");
     $today_date = date("Y-m-d");
-    $first_inst = date('Y-m-d', strtotime("+30 days")); //Ubwo nizindi Insts zose nuku
+    $first_inst = date("Y-m-d", strtotime("+30 days")); //Ubwo nizindi Insts zose nuku
     // $next_inst = date("Y-m-d", strtotime("+30 days", strtotime($prev_inst)));
 
-    $due_date = $first_inst;
     while ($i < $request->no_of_installment) {
         //Now we can create the row
 
         if ($i == 0) {
             //First inst
             $due_date = $first_inst;
-            Membership::where('id',$lastID)->update(['start_date'=>$due_date]);
+            Membership::where('id',$lastID)->update(['start_date'=>$today_date]);
         } else {
             $due_date = date("Y-m-d", strtotime("+30 days", strtotime($due_date)));
         }
@@ -100,9 +100,12 @@ class MembershipController extends Controller
         $i++;
 
     }
-    $nof_insts = $request->no_of_installment;
+    Membership::where('id',$lastID)->update(['end_date'=>$due_date]);
+    $nof_insts = $lastID . "_" .$request->no_of_installment;
 
-    return redirect('/dates_create/'.$nof_insts.'/');
+    // return redirect('/dates_create/'.$nof_insts.'/');
+    return redirect('/dates_create')->with('nof',$nof_insts);
+
 }
     /**
      * Display the specified resource.
