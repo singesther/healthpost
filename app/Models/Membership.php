@@ -9,13 +9,14 @@ class Membership extends Model
 {
     use HasFactory;
     protected $fillable = [
-    'healthpost_id','no_of_installment', 'total_price', 'start_date', 'end_date'
-
-
-
-
+    'healthpost_id',
+    'no_of_installment', 
+    'total_price', 
+    'extended', 
+    'start_date', 
+    'end_date', 
+    'status'
 ];
-
 
 public function post()
 {

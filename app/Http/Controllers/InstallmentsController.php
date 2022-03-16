@@ -193,23 +193,23 @@ class InstallmentsController extends Controller
         $total_amount =  membership::where('healthpost_id',$healthpost_id)->value('total_price');
         $amountsum =  installments::where('membership_id',$membership_id)->sum('amount');
         $m = $amountsum + $amount;
-        $remaining_insts = installments::where('membership_id',$membership_id)->where('amount', 0)->get()->toArray();
+        $remaining_insts = installments::where('membership_id',$membership_id)->where('paid', 0)->get()->toArray();
         $status = 0;
     if (count($remaining_insts) < 2) {
         if($m < $total_amount) {
-            $minID = installments::where('membership_id',$membership_id)->where('amount', 0)->min('id');
+            $minID = installments::where('membership_id',$membership_id)->where('paid', 0)->min('id');
             installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date]);
             Membership::where('id',$membership_id)->update(['status'=>3]);
         }else{
-        $minID = installments::where('membership_id',$membership_id)->where('amount', 0)->min('id');
-        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date]);
+        $minID = installments::where('membership_id',$membership_id)->where('paid', 0)->min('id');
+        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date, 'paid'=>1]);
         Membership::where('id',$membership_id)->update(['status'=>2]);
 
         }
     }else{
         $status = 1;
-        $minID = installments::where('membership_id',$membership_id)->where('amount', 0)->min('id');
-        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date]);
+        $minID = installments::where('membership_id',$membership_id)->where('paid', 0)->min('id');
+        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date, 'paid'=>1]);
         Membership::where('id',$membership_id)->update(['status'=>$status]);
         }
         return redirect()->route('installments_index');
