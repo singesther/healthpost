@@ -78,10 +78,11 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        
+
                         <th>Healthpost Name</th>
                         <th>Amount</th>
                         <th>Paid</th>
+                        <th>Due date</th>
                         <th>Pay date</th>
                     </tr>
                 </thead>
@@ -92,11 +93,12 @@
                     @foreach($article["all_payments"] as $insts)
                     <tr>
                         <td> {{ $i }}</td>
-                        
+
                         <td> {{ $article["healthpost_name"] }} </td>
                         <td> {{ $insts->amount }} </td>
                         <th> <?php if ($insts->paid == 0) { echo "No"; }else{echo "Yes";}?> </th>
                         <td> {{ $insts->pay_date }} </td>
+                        <td> {{ $insts->payment }} </td>
                     </tr>
                     <?php $i++; ?>
                     @endforeach

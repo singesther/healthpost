@@ -55,7 +55,7 @@ class MembershipController extends Controller
     $request->validate([
         'no_of_installment' =>'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:4',
 
-        'total_price' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:6',
+        'total_price' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:7',
     ]);
 
 
