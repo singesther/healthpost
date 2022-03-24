@@ -36,8 +36,7 @@
             <th>Healthpost</th>
             <th>Number of Installments</th>
             <th>Total Price</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+
             <th>Status</th>
             <th>Action</th>
 

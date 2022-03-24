@@ -17,8 +17,8 @@
     @csrf
 
 
-    <input type="text" name="owner_id" value="{{ $data['ownerLastInsertID'] }}">
-    <input type="text" name="healthcenter_id" value=" {{  $data['hcLastInsertID'] }} ">
+    <input type="hidden" name="owner_id" value="{{ $data['ownerLastInsertID'] }}">
+    <input type="hidden" name="healthcenter_id" value=" {{  $data['hcLastInsertID'] }} ">
 
      <div class="row">
         <div class="col-xs-9 col-sm-8 col-md-8">

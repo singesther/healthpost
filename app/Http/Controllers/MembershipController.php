@@ -82,7 +82,7 @@ class MembershipController extends Controller
         if ($i == 0) {
             //First inst
             $due_date = $first_inst;
-            Membership::where('id',$lastID)->update(['start_date'=>$today_date]);
+           // Membership::where('id',$lastID)->update(['start_date'=>$today_date]);
         } else {
             $due_date = date("Y-m-d", strtotime("+30 days", strtotime($due_date)));
         }
@@ -100,7 +100,7 @@ class MembershipController extends Controller
         $i++;
 
     }
-    Membership::where('id',$lastID)->update(['end_date'=>$due_date]);
+    //Membership::where('id',$lastID)->update(['end_date'=>$due_date]);
     $nof_insts = $lastID . "_" .$request->no_of_installment;
 
     // return redirect('/dates_create/'.$nof_insts.'/');

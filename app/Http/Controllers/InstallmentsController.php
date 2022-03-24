@@ -90,7 +90,7 @@ class InstallmentsController extends Controller
         'healthpost_id' => $request->healthpost_id,
         'membership_id' => $request->membership_id,
         'amount' => $request->amount,
-        'pay_date' => $today_date,
+        'pay_date' => $request->pay_date,
         'payment' => $today_date,
     ]);
         $data1 = 1;
@@ -201,11 +201,13 @@ class InstallmentsController extends Controller
         $total_amount =  membership::where('healthpost_id',$healthpost_id)->value('total_price');
         $message = "Installment Created Successfully";
         $membership_idd =  membership::where('healthpost_id',$healthpost_id)->value('id');
+        //$due_date =
         $amountsum =  installments::where('membership_id',$membership_idd)->where('paid',1)->sum('amount');
         $countpaid =  installments::where('membership_id',$membership_idd)->where('paid',1)->groupBy('membership_id')->selectRaw('count(*) as countpaid')->value('countpaid');
 
+       
         $maxID = installments::where('membership_id',$membership_idd)->where('paid', 1)->max('id');
-       // installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date]);
+
        $payment =  installments::where('id',$maxID)->where('paid',1)->groupBy('membership_id')->update(['payment'=>$today_date]);
         $all_payments = installments::where('membership_id',$membership_idd)->get();
         $status = 0;
@@ -228,18 +230,10 @@ class InstallmentsController extends Controller
             'total_amount' => $total_amount,
             'paid_amount' => $amountsum,
             'paid_installments' => $countpaid,
-            'payment' => $today_date,
 
         ];
 
-
-        //installments::where('id', $paid)->update(['payment'=> $today_date, 'paid'=>1]);
        return view('installments.create', ['article' => $installments]);
-
-
-
-
-       installments::where('id', $paid)->update(['payment'=> $today_date, 'paid'=>1]);
 
 
 
@@ -266,15 +260,15 @@ class InstallmentsController extends Controller
             Membership::where('id',$membership_id)->update(['status'=>3]);
         }else{
         $minID = installments::where('membership_id',$membership_id)->where('paid', 0)->min('id');
-        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date, 'paid'=>1]);
-        installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date, 'paid'=>1]);
+        installments::where('id', $minID)->update(['pay_date'=> $pay_date, 'paid'=>1]);
+        //installments::where('id', $minID)->update(['amount'=> $amount, 'pay_date'=> $pay_date, 'paid'=>1]);
 
         Membership::where('id',$membership_id)->update(['status'=>2]);
         }
     }else{
         $status = 1;
         $minID = installments::where('membership_id',$membership_id)->where('paid', 0)->min('id');
-        installments::where('id', $minID)->update(['amount'=> $amount, 'paid'=>1]);
+        installments::where('id', $minID)->update(['pay_date'=> $pay_date, 'paid'=>1]);
 
         Membership::where('id',$membership_id)->update(['status'=>$status]);
         }
@@ -303,7 +297,7 @@ class InstallmentsController extends Controller
                 }
                 $amount = "amount".$loop;
                 $pdate = "field".$loop;
-                installments::where('id',$current_ID)->update(['amount' => $data[$amount], 'pay_date' => $data[$pdate]]);
+                installments::where('id',$current_ID)->update(['amount' => $data[$amount], 'due_date' => $data[$pdate]]);
             $loop++;
         }
         return redirect()->route('installments_index');

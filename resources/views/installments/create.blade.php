@@ -97,8 +97,9 @@
                         <td> {{ $article["healthpost_name"] }} </td>
                         <td> {{ $insts->amount }} </td>
                         <th> <?php if ($insts->paid == 0) { echo "No"; }else{echo "Yes";}?> </th>
+                        <td> {{ $insts->due_date }} </td>
                         <td> {{ $insts->pay_date }} </td>
-                        <td> {{ $insts->payment }} </td>
+
                     </tr>
                     <?php $i++; ?>
                     @endforeach
